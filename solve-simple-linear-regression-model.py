@@ -22,26 +22,32 @@ def solve(values):
     return x, y, b0, b1
 
 
-def graph(x, y, b0, b1):
+def graph(x, y, b0, b1, title, xlabel, ylabel):
     xn = np.linspace(-100, 100)
     yn = f(b0, b1, xn)
     fig, ax =  plt.subplots()
     ax.plot(xn, yn)
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_title('Solve Simple Linear Regression Model')
-    ax.set_xlim(0, 20)
-    ax.set_ylim(0, 20)
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_xlim(min(x) - 3, max(x) + 3)
+    ax.set_ylim(min(y) - 3, max(x) + 3)
     ax.grid(True)
-    ax.plot(xn, yn, color='red')
     ax.plot(x, y, 'o', color='blue')
+    ax.plot(xn, yn, color='red')
     plt.show()
 
 
 def main():
     values = np.loadtxt(sys.argv[1])
-    graph(*solve(values))
+    try:
+        title, xlabel, ylabel = sys.argv[2], sys.argv[3], sys.argv[4] 
+    except IndexError:
+        title, xlabel, ylabel = 'Solve Simple Linear Regression Model', 'X', 'Y' 
+
+    graph(*solve(values), title, xlabel, ylabel)
 
 
 if __name__ == '__main__':
     main()
+
